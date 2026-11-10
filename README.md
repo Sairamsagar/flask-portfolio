@@ -9,22 +9,23 @@ A clean, responsive personal portfolio website built with **Flask**, **Jinja2 te
 
 ---
 
-## ✨ Features
+## Features
 
 - **Single-page layout** — About, Projects, Resume, Contact sections
-- **Responsive design** — Mobile-first CSS Grid/Flexbox, works on all screens
-- **Template-driven** — Easy to customize via `app.py` data dictionary
-- **Resume download** — Place your PDF in `static/` and link works automatically
-- **Zero JS dependencies** — Pure HTML/CSS, fast loads
+- **Responsive design** — Mobile-first CSS Grid and Flexbox, works on all screen sizes
+- **Template-driven** — Easy to customize via the `portfolio` dictionary in `app.py`
+- **Resume download** — Place your PDF in `static/` and the download link works automatically
+- **Zero JavaScript dependencies** — Pure HTML/CSS, fast loads
 - **Modern styling** — CSS custom properties, fluid typography, subtle shadows
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
-- Python 3.8+
-- pip (comes with Python)
+
+- Python 3.8 or higher
+- pip (included with Python)
 
 ### Installation
 
@@ -33,7 +34,7 @@ A clean, responsive personal portfolio website built with **Flask**, **Jinja2 te
 git clone https://github.com/<your-username>/flask-portfolio.git
 cd flask-portfolio
 
-# 2. Create a virtual environment (recommended)
+# 2. Create a virtual environment
 python -m venv venv
 
 # 3. Activate the environment
@@ -55,7 +56,7 @@ Open your browser at **http://127.0.0.1:5000/**
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 flask-portfolio/
@@ -73,9 +74,9 @@ flask-portfolio/
 
 ---
 
-## ✏️ Customization
+## Customization
 
-Edit `app.py` to personalize your portfolio:
+Edit `app.py` to personalize your portfolio. The `portfolio` dictionary holds all the content:
 
 ```python
 portfolio = {
@@ -84,7 +85,7 @@ portfolio = {
     "bio": "Your bio/description...",
     "email": "you@example.com",
     "linkedin": "https://linkedin.com/in/yourprofile",
-    "resume_filename": "your-resume.pdf",  # Must match file in static/
+    "resume_filename": "your-resume.pdf",  # Must match a file in static/
     "projects": [
         {
             "title": "Project Name",
@@ -97,11 +98,14 @@ portfolio = {
 ```
 
 ### Add your resume
-1. Place your PDF in `static/` (e.g., `static/john-doe-resume.pdf`)
-2. Update `resume_filename` in `app.py` to match
+
+1. Place your PDF in `static/` (for example, `static/john-doe-resume.pdf`).
+2. Update `resume_filename` in `app.py` to match the filename.
 
 ### Styling
-Modify `static/style.css` — CSS custom properties at the top make theme changes trivial:
+
+Modify `static/style.css`. CSS custom properties at the top of the file make theme changes straightforward:
+
 ```css
 :root {
     --accent: #14532d;      /* Primary brand color */
@@ -113,15 +117,18 @@ Modify `static/style.css` — CSS custom properties at the top make theme change
 
 ---
 
-## 🛠️ Development
+## Development
 
-### Run with auto-reload (debug mode)
+### Run with auto-reload
+
+The app runs with `debug=True`, so changes to Python files and templates reload automatically:
+
 ```bash
 python app.py
 ```
-The app runs with `debug=True` — changes to Python/templates auto-reload.
 
 ### Linting (optional)
+
 ```bash
 pip install ruff
 ruff check .
@@ -130,16 +137,19 @@ ruff format .
 
 ---
 
-## 📦 Deployment
+## Deployment
 
 ### Option 1: Gunicorn + Nginx (Production VPS)
+
 ```bash
 pip install gunicorn
 gunicorn -w 4 -b 0.0.0.0:8000 app:app
 ```
-Configure Nginx to proxy to `localhost:8000`.
+
+Configure Nginx to proxy requests to `localhost:8000`.
 
 ### Option 2: Docker
+
 ```dockerfile
 # Dockerfile
 FROM python:3.11-slim
@@ -150,42 +160,40 @@ COPY . .
 EXPOSE 5000
 CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:5000", "app:app"]
 ```
+
 ```bash
 docker build -t flask-portfolio .
 docker run -p 5000:5000 flask-portfolio
 ```
 
 ### Option 3: Platform-as-a-Service
-- **Render** / **Fly.io** / **Railway** — Push to GitHub, connect repo, auto-deploy
-- **PythonAnywhere** — Upload files, configure WSGI
-- **Heroku** — Add `Procfile`: `web: gunicorn app:app`
+
+- **Render**, **Fly.io**, or **Railway** — push to GitHub, connect the repo, and enable auto-deploy
+- **PythonAnywhere** — upload the files and configure the WSGI settings
+- **Heroku** — add a `Procfile` with `web: gunicorn app:app`
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-Contributions welcome! Please:
+Contributions are welcome. To contribute:
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit changes: `git commit -m 'Add amazing feature'`
-4. Push to branch: `git push origin feature/amazing-feature`
+3. Commit your changes: `git commit -m 'Add amazing feature'`
+4. Push to the branch: `git push origin feature/amazing-feature`
 5. Open a Pull Request
 
 ---
 
-## 📄 License
+## License
 
 Distributed under the **MIT License**. See `LICENSE` for details.
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
-- [Flask](https://flask.palletsprojects.com/) — Lightweight WSGI framework
-- [Inter font](https://fonts.google.com/specimen/Inter) — Clean, readable typography
-- CSS custom properties for effortless theming
-
----
-
-> **Tip:** Star ⭐ this repo if you found it useful!
+- [Flask](https://flask.palletsprojects.com/) — lightweight WSGI framework
+- [Inter](https://fonts.google.com/specimen/Inter) — clean, readable typography
+- CSS custom properties for straightforward theming
