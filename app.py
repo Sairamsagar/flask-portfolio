@@ -1,3 +1,4 @@
+from datetime import date
 from pathlib import Path
 
 from flask import Flask, render_template, url_for
@@ -15,6 +16,8 @@ portfolio = {
             "title": "Flask Portfolio",
             "description": "A responsive single-page portfolio built with Flask, Jinja2, HTML, and CSS.",
             "tags": ["Flask", "Python", "HTML", "CSS"],
+            "repo": "https://github.com/Sairamsagar/flask-portfolio",
+            "demo": None,
         },
     ],
 }
@@ -33,6 +36,7 @@ def home():
         'portfolio.html',
         portfolio=portfolio,
         resume_url=resume_url,
+        current_year=date.today().year,
     )
 
 

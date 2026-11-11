@@ -88,7 +88,9 @@ portfolio = {
         {
             "title": "Project Name",
             "description": "What it does...",
-            "tags": ["Tech", "Stack", "Here"]
+            "tags": ["Tech", "Stack", "Here"],
+            "repo": "https://github.com/...",  # Optional: shows a "Code" link
+            "demo": None,  # Optional: shows a "Live demo" link
         },
         # Add more projects...
     ],
@@ -197,5 +199,4 @@ Distributed under the **MIT License**. See `LICENSE` for details.
 ## Acknowledgments
 
 - [Flask](https://flask.palletsprojects.com/) — lightweight WSGI framework
-- [Inter](https://fonts.google.com/specimen/Inter) — clean, readable typography
 - CSS custom properties for straightforward theming

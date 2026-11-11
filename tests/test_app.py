@@ -38,5 +38,40 @@ def test_existing_configured_resume_is_linked_and_served(tmp_path, monkeypatch):
     assert download.data == b"resume test file"
 
 
+def test_project_links_render_when_configured(monkeypatch):
+    project = {
+        "title": "Linked Project",
+        "description": "Has links.",
+        "tags": [],
+        "repo": "https://github.com/example/repo",
+        "demo": "https://example.com/demo",
+    }
+    monkeypatch.setitem(portfolio, "projects", [project])
+
+    response = app.test_client().get("/")
+
+    assert b'href="https://github.com/example/repo"' in response.data
+    assert b'href="https://example.com/demo"' in response.data
+    assert b"Live demo" in response.data
+
+
+def test_project_links_hidden_when_not_configured(monkeypatch):
+    project = {"title": "Plain Project", "description": "No links.", "tags": []}
+    monkeypatch.setitem(portfolio, "projects", [project])
+
+    response = app.test_client().get("/")
+
+    assert b"Plain Project" in response.data
+    assert b'class="project-links"' not in response.data
+
+
+def test_footer_shows_current_year():
+    from datetime import date
+
+    response = app.test_client().get("/")
+
+    assert f"&copy; {date.today().year}".encode() in response.data
+
+
 def test_debug_mode_is_disabled_by_default():
     assert app.debug is False

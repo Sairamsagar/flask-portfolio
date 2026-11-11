@@ -45,6 +45,12 @@
                             <span>{{ tag }}</span>
                             {% endfor %}
                         </div>
+                        {% if project.repo or project.demo %}
+                        <div class="project-links">
+                            {% if project.repo %}<a href="{{ project.repo }}" target="_blank" rel="noreferrer">Code</a>{% endif %}
+                            {% if project.demo %}<a href="{{ project.demo }}" target="_blank" rel="noreferrer">Live demo</a>{% endif %}
+                        </div>
+                        {% endif %}
                     </article>
                     {% endfor %}
                 </div>
@@ -65,7 +71,7 @@
         </main>
 
         <footer class="site-footer">
-            <p>&copy; 2026 {{ portfolio.name }}. All Rights Reserved.</p>
+            <p>&copy; {{ current_year }} {{ portfolio.name }}. All Rights Reserved.</p>
         </footer>
     </div>
 </body>
