@@ -18,7 +18,7 @@
                 <nav class="nav-links">
                     <a href="#about">About</a>
                     <a href="#projects">Projects</a>
-                    <a href="#resume">Resume</a>
+                    {% if resume_url %}<a href="#resume">Resume</a>{% endif %}
                     <a href="#contact">Contact</a>
                 </nav>
             </div>
@@ -33,7 +33,7 @@
             <section id="projects" class="panel">
                 <div class="section-heading">
                     <h2>Projects</h2>
-                    <p>Selected work demonstrating clean design, reusable components, and thoughtful layouts.</p>
+                    <p>Work included in this portfolio.</p>
                 </div>
                 <div class="project-grid">
                     {% for project in portfolio.projects %}
@@ -50,16 +50,17 @@
                 </div>
             </section>
 
+            {% if resume_url %}
             <section id="resume" class="panel resume-panel">
                 <h2>Resume</h2>
-                <p>Download a polished resume with your latest experience and skills.</p>
+                <p>Download the latest resume.</p>
                 <a class="button" href="{{ resume_url }}" download>Download Resume</a>
             </section>
+            {% endif %}
 
             <section id="contact" class="panel contact-panel">
                 <h2>Contact</h2>
-                <p>Email: <a href="mailto:{{ portfolio.email }}">{{ portfolio.email }}</a></p>
-                <p>LinkedIn: <a href="{{ portfolio.linkedin }}" target="_blank" rel="noreferrer">{{ portfolio.linkedin }}</a></p>
+                <p><a href="{{ portfolio.github }}" target="_blank" rel="noreferrer">GitHub profile</a></p>
             </section>
         </main>
 

@@ -1,20 +1,15 @@
 # Flask Portfolio
 
-A clean, responsive personal portfolio website built with **Flask**, **Jinja2 templates**, and modern **CSS**. Designed for developers who want a lightweight, customizable portfolio without heavy frameworks.
-
-![Python](https://img.shields.io/badge/Python-3.8+-blue?logo=python&logoColor=white)
-![Flask](https://img.shields.io/badge/Flask-2.0+-black?logo=flask&logoColor=white)
-![License](https://img.shields.io/badge/License-MIT-green)
-![Status](https://img.shields.io/badge/Status-Active-brightgreen)
+A responsive portfolio site built with Flask, Jinja, HTML, and CSS. The current page contains only verified project details; add personal contact information and a resume when you are ready.
 
 ---
 
 ## Features
 
-- **Single-page layout** — About, Projects, Resume, Contact sections
+- **Single-page layout** — About, Projects, and Contact sections; the resume section appears only when a configured PDF exists
 - **Responsive design** — Mobile-first CSS Grid and Flexbox, works on all screen sizes
 - **Template-driven** — Easy to customize via the `portfolio` dictionary in `app.py`
-- **Resume download** — Place your PDF in `static/` and the download link works automatically
+- **Automated tests** — Run locally with pytest; GitHub Actions checks pushes and pull requests
 - **Zero JavaScript dependencies** — Pure HTML/CSS, fast loads
 - **Modern styling** — CSS custom properties, fluid typography, subtle shadows
 
@@ -31,7 +26,7 @@ A clean, responsive personal portfolio website built with **Flask**, **Jinja2 te
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/flask-portfolio.git
+git clone https://github.com/Sairamsagar/flask-portfolio.git
 cd flask-portfolio
 
 # 2. Create a virtual environment
@@ -62,12 +57,16 @@ Open your browser at **http://127.0.0.1:5000/**
 flask-portfolio/
 ├── app.py                 # Flask application entry point
 ├── requirements.txt       # Python dependencies
+├── requirements-dev.txt   # Test dependency
+├── Procfile               # Production server command
+├── tests/                  # Application tests
+├── .github/workflows/      # GitHub Actions CI
 ├── README.md             # This file
 ├── LICENSE               # MIT License
 ├── .gitignore            # Git ignore rules
 ├── static/
 │   ├── style.css         # All styling
-│   └── your-resume.pdf   # Place your resume here (optional)
+│   └── (add a real resume PDF here, if desired)
 └── templates/
     └── portfolio.html    # Jinja2 template
 ```
@@ -83,9 +82,8 @@ portfolio = {
     "name": "Your Name",
     "headline": "Your tagline here",
     "bio": "Your bio/description...",
-    "email": "you@example.com",
-    "linkedin": "https://linkedin.com/in/yourprofile",
-    "resume_filename": "your-resume.pdf",  # Must match a file in static/
+    "github": "https://github.com/Sairamsagar",
+    "resume_filename": None,  # Set only when a real PDF exists in static/
     "projects": [
         {
             "title": "Project Name",
@@ -119,12 +117,14 @@ Modify `static/style.css`. CSS custom properties at the top of the file make the
 
 ## Development
 
-### Run with auto-reload
+### Run locally
 
-The app runs with `debug=True`, so changes to Python files and templates reload automatically:
+Debug mode is disabled by default. For local development, use Flask's debug mode explicitly only on your own machine. Install the development dependency and run the test suite with:
 
 ```bash
 python app.py
+pip install -r requirements-dev.txt
+python -m pytest -q
 ```
 
 ### Linting (optional)
@@ -138,6 +138,8 @@ ruff format .
 ---
 
 ## Deployment
+
+The `Procfile` starts Gunicorn and binds to the host-provided `PORT`. Use a Linux-based Python host that supports Gunicorn. The Flask development server is not for production. No environment variables or application secrets are currently required; `.env.example` records that status.
 
 ### Option 1: Gunicorn + Nginx (Production VPS)
 

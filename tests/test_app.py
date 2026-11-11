@@ -1,0 +1,42 @@
+from app import app, portfolio
+
+
+def test_homepage_uses_only_verified_portfolio_content():
+    app.testing = True
+    response = app.test_client().get("/")
+
+    assert response.status_code == 200
+    assert b"Sairamsagar" in response.data
+    assert b"your.email@example.com" not in response.data
+    assert b"your-profile" not in response.data
+    assert b"Task Tracker" not in response.data
+    assert b"Blog Platform" not in response.data
+
+
+def test_resume_section_is_hidden_until_real_resume_is_configured():
+    app.testing = True
+    response = app.test_client().get("/")
+
+    assert response.status_code == 200
+    assert b"Download Resume" not in response.data
+    assert b"Resume Coming Soon" not in response.data
+
+
+
+def test_existing_configured_resume_is_linked_and_served(tmp_path, monkeypatch):
+    resume = tmp_path / "resume.pdf"
+    resume.write_bytes(b"resume test file")
+    monkeypatch.setattr(app, "static_folder", str(tmp_path))
+    monkeypatch.setitem(portfolio, "resume_filename", resume.name)
+
+    client = app.test_client()
+    page = client.get("/")
+    download = client.get("/static/resume.pdf")
+
+    assert b'href="/static/resume.pdf"' in page.data
+    assert download.status_code == 200
+    assert download.data == b"resume test file"
+
+
+def test_debug_mode_is_disabled_by_default():
+    assert app.debug is False

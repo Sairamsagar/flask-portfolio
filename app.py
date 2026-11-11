@@ -1,32 +1,20 @@
+from pathlib import Path
+
 from flask import Flask, render_template, url_for
 
 app = Flask(__name__)
 
 portfolio = {
-    "name": "Your Name",
-    "headline": "Building clean web experiences with Python and Flask.",
-    "bio": (
-        "I am a developer who loves turning ideas into polished, responsive websites. "
-        "I focus on readable code, user-friendly interfaces, and projects that scale."
-    ),
-    "email": "your.email@example.com",
-    "linkedin": "https://www.linkedin.com/in/your-profile",
-    "resume_filename": "your-resume.pdf",
+    "name": "Sairamsagar",
+    "headline": "Flask and Python portfolio project.",
+    "bio": "This portfolio is a work in progress. More information will be added soon.",
+    "github": "https://github.com/Sairamsagar",
+    "resume_filename": None,
     "projects": [
         {
-            "title": "Portfolio Website",
-            "description": "A modern portfolio built with Flask, templating, and responsive styling.",
-            "tags": ["Flask", "HTML", "CSS"],
-        },
-        {
-            "title": "Task Tracker",
-            "description": "A lightweight task manager with clean UI and productive workflows.",
-            "tags": ["Python", "Web App", "UX"],
-        },
-        {
-            "title": "Blog Platform",
-            "description": "A blog template that supports reusable content sections and easy updates.",
-            "tags": ["Flask", "Markdown", "Content"],
+            "title": "Flask Portfolio",
+            "description": "A responsive single-page portfolio built with Flask, Jinja2, HTML, and CSS.",
+            "tags": ["Flask", "Python", "HTML", "CSS"],
         },
     ],
 }
@@ -34,12 +22,19 @@ portfolio = {
 
 @app.route('/')
 def home():
+    resume_filename = portfolio.get('resume_filename')
+    resume_path = Path(app.static_folder) / resume_filename if resume_filename else None
+    resume_url = (
+        url_for('static', filename=resume_filename)
+        if resume_path and resume_path.is_file()
+        else None
+    )
     return render_template(
         'portfolio.html',
         portfolio=portfolio,
-        resume_url=url_for('static', filename=portfolio['resume_filename']),
+        resume_url=resume_url,
     )
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
