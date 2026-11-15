@@ -5,6 +5,7 @@ from flask import Flask, jsonify, render_template, url_for
 
 app = Flask(__name__)
 
+# All page content lives here. Edit this dictionary to personalise the site.
 portfolio = {
     "name": "Sairamsagar",
     "headline": "Flask and Python portfolio project.",
@@ -22,13 +23,12 @@ portfolio = {
     ],
 }
 
-
 SECURITY_HEADERS = {
     "X-Content-Type-Options": "nosniff",
     "X-Frame-Options": "DENY",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "Permissions-Policy": "camera=(), geolocation=(), microphone=()",
-    # The page loads one same-origin stylesheet, no scripts, and an inline SVG favicon.
+    # The site loads one same-origin stylesheet, no scripts, and an inline SVG favicon.
     "Content-Security-Policy": (
         "default-src 'self'; "
         "img-src 'self' data:; "
@@ -41,6 +41,12 @@ SECURITY_HEADERS = {
 }
 
 
+@app.context_processor
+def inject_site_context():
+    """Make the portfolio content and the current year available to every template."""
+    return {"portfolio": portfolio, "current_year": date.today().year}
+
+
 @app.after_request
 def add_security_headers(response):
     for header, value in SECURITY_HEADERS.items():
@@ -48,39 +54,28 @@ def add_security_headers(response):
     return response
 
 
-@app.route('/healthz')
+def get_resume_url():
+    """Return the URL of the configured resume, or None when the file does not exist."""
+    filename = portfolio.get("resume_filename")
+    if filename and (Path(app.static_folder) / filename).is_file():
+        return url_for("static", filename=filename)
+    return None
+
+
+@app.route("/")
+def home():
+    return render_template("portfolio.html", resume_url=get_resume_url())
+
+
+@app.route("/healthz")
 def healthz():
     return jsonify(status="ok")
 
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return (
-        render_template(
-            '404.html',
-            portfolio=portfolio,
-            current_year=date.today().year,
-        ),
-        404,
-    )
+    return render_template("404.html"), 404
 
 
-@app.route('/')
-def home():
-    resume_filename = portfolio.get('resume_filename')
-    resume_path = Path(app.static_folder) / resume_filename if resume_filename else None
-    resume_url = (
-        url_for('static', filename=resume_filename)
-        if resume_path and resume_path.is_file()
-        else None
-    )
-    return render_template(
-        'portfolio.html',
-        portfolio=portfolio,
-        resume_url=resume_url,
-        current_year=date.today().year,
-    )
-
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=False)
