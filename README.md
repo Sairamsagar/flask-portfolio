@@ -9,7 +9,8 @@ A responsive portfolio site built with Flask, Jinja, HTML, and CSS. The current 
 - **Single-page layout** — About, Projects, and Contact sections; the resume section appears only when a configured PDF exists
 - **Responsive design** — Mobile-first CSS Grid and Flexbox, works on all screen sizes
 - **Template-driven** — Easy to customize via the `portfolio` dictionary in `app.py`
-- **Automated tests** — Run locally with pytest; GitHub Actions checks pushes and pull requests
+- **Automated tests** — A small pytest suite covering the major behaviour; GitHub Actions runs it on every pull request
+- **Production basics** — Security headers, a styled 404 page, and a `/healthz` endpoint for host health checks
 - **Zero JavaScript dependencies** — Pure HTML/CSS, fast loads
 - **Modern styling** — CSS custom properties, fluid typography, subtle shadows
 
@@ -19,7 +20,7 @@ A responsive portfolio site built with Flask, Jinja, HTML, and CSS. The current 
 
 ### Prerequisites
 
-- Python 3.8 or higher
+- Python 3.9 or higher
 - pip (included with Python)
 
 ### Installation
@@ -68,7 +69,9 @@ flask-portfolio/
 │   ├── style.css         # All styling
 │   └── (add a real resume PDF here, if desired)
 └── templates/
-    └── portfolio.html    # Jinja2 template
+    ├── base.html         # Shared layout: head, header, footer
+    ├── portfolio.html    # Home page
+    └── 404.html          # Not-found page
 ```
 
 ---
