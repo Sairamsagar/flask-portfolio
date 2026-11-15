@@ -180,13 +180,39 @@ docker run -p 5000:5000 flask-portfolio
 
 ## Contributing
 
-Contributions are welcome. To contribute:
+### Branches
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'Add amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+| Branch | Purpose | How it changes |
+|---|---|---|
+| `main` | Production. Always working and deployable. Clone this to run the site. | Only by a release pull request from `develop` |
+| `develop` | Integration. The next release is assembled and tested here. | Only by squash-merged pull requests from work branches |
+| `feat/...`, `fix/...`, `docs/...`, `chore/...` | One change each, branched from `develop` | Deleted after merge |
+
+Nobody pushes to `main` or `develop` directly. Both require a pull request with the `test` check passing.
+
+### Making a change
+
+```bash
+git clone https://github.com/Sairamsagar/flask-portfolio.git
+cd flask-portfolio
+git switch develop
+git switch -c feat/short-description
+
+python -m pip install -r requirements.txt -r requirements-dev.txt
+python -m pytest -q
+
+git push -u origin feat/short-description
+```
+
+Then open a pull request **into `develop`** and squash-merge it once the check passes.
+
+### Releasing to production
+
+1. Open a pull request from `develop` into `main`.
+2. Merge it with a merge commit (not squash), so the two branches keep a shared history.
+3. Tag the result on `main`, for example `v1.1.0`, and publish a GitHub release.
+
+For an urgent production fix, branch `fix/...` from `main`, open the pull request into `main`, then merge `main` back into `develop`.
 
 ---
 
